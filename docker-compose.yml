@@ -1,0 +1,26 @@
+version: '3'
+services:
+    influxdb:
+        image: 'influxdb:2.0-alpine'
+        ports:
+            - '8086:8086'
+        volumes:
+            - influxdb-data:/var/lib/influxdb2
+        networks:
+            - water-monitoring
+    grafana:
+        image: 'grafana/grafana'
+        ports:
+            - '3000:3000'
+        depends_on:
+            - influxdb
+        volumes:
+            - grafana-data:/var/lib/grafana
+        networks:
+            - water-monitoring
+networks:
+    water-monitoring:
+        driver: bridge
+volumes:
+    influxdb-data:
+    grafana-data:
